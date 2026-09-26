@@ -124,7 +124,7 @@ func (c containerBuilder) Preflight(ctx context.Context, spec, chroot string, st
 	if err := c.run(ctx, spec, chroot, []string{"SRPM_ONLY=1", "OUTPUT=/sources/.rpmbuild"}, stdout); err != nil {
 		return err
 	}
-	return c.run(ctx, spec, chroot, []string{"FROM_SRPM=1", "OUTPUT=/sources/.rpmbuild"}, stdout)
+	return c.run(ctx, spec, chroot, []string{"FROM_SRPM=1", "SOURCES=/sources/.rpmbuild", "OUTPUT=/sources/.rpmbuild"}, stdout)
 }
 
 // nativeBuilder uses spectool + rpmbuild on the host.
