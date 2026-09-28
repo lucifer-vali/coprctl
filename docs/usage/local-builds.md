@@ -44,7 +44,9 @@ in two environment conventions:
 
 `coprctl` mounts your spec directory at `/sources` and overrides
 `OUTPUT=/sources/.rpmbuild` so the produced RPM lands back in your spec
-directory under `.rpmbuild/`. The script inside the image
+directory under `.rpmbuild/`. A preflight runs the image twice, so the
+rebuild stage also overrides `SOURCES=/sources/.rpmbuild` to read the SRPM
+the source stage wrote. The script inside the image
 (`/usr/bin/rpmbuilder`) then:
 
 1. Installs the spec's `BuildRequires` with `dnf builddep`.
