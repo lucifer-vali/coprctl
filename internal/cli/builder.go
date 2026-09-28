@@ -82,6 +82,9 @@ func normalizeMode(mode string) runtimeMode {
 	}
 }
 
+// detectRuntime resolves the container runtime; overridable in tests.
+var detectRuntime = ctrruntime.Detect
+
 // containerBuilder runs the rpmbuilder image via a container runtime.
 type containerBuilder struct {
 	prefer string
@@ -95,7 +98,7 @@ func (c containerBuilder) Available() error {
 }
 
 func (c containerBuilder) run(ctx context.Context, spec, chroot string, env []string, stdout io.Writer) error {
-	rt, err := ctrruntime.Detect(c.prefer)
+	rt, err := detectRuntime(c.prefer)
 	if err != nil {
 		return cerr.New("no_runtime", cerr.ExitPrecondition, err.Error())
 	}
